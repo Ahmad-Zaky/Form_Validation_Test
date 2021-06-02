@@ -1,4 +1,6 @@
-# form_validation_test
+# Form Validation Test
+
+Form Validation Test Nuxt Project
 
 ## Build Setup
 
@@ -18,3 +20,4 @@ $ npm run generate
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+
