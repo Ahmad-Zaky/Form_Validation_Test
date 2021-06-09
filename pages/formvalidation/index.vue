@@ -77,6 +77,17 @@
 <script>
     import useVuelidate from '@vuelidate/core'
     import { required, email, minLength, sameAs, helpers } from '@vuelidate/validators'
+
+    /**
+     * Custom Validations
+     */
+    export function isValidName(name) {
+        let regex = new RegExp(/^[a-zA-Z]+(?:[-'\s][a-zA-Z]+)*$/gm);
+        if(regex.test(name))
+            return true;
+        return false;
+    }
+
     export default {
         setup () {
             return { v$: useVuelidate() }
@@ -96,13 +107,29 @@
                     confirmPassword: "",
                     acceptTerms: false,
                 },
+                cusomtErrMsg: {
+                    confirmPasswordMsg: "confim password does not match",
+                    nameMsg: "Name can contains only (-, /, ') characters in middle !",
+                },
             }
         },
         validations() {
             return {
                 form: {
-                    firstName: {required},
-                    lastName: {required},
+                    firstName: {
+                        required,
+                        isValidName: helpers.withMessage(
+                            this.cusomtErrMsg.nameMsg,
+                            isValidName
+                        )
+                    },
+                    lastName: {
+                        required,
+                        isValidName: helpers.withMessage(
+                            this.cusomtErrMsg.nameMsg,
+                            isValidName
+                        )
+                    },
                     email: {required, email},
                     password: {
                         required,
@@ -112,7 +139,7 @@
                         required,
                         min: minLength(6),
                         matched: helpers.withMessage(
-                            'confim password does not match',
+                            this.cusomtErrMsg.confirmPasswordMsg,
                             sameAs(this.form.password)
                         )
                     },
@@ -122,7 +149,7 @@
                 }
             }
         },
-        methods: {
+        methods: {            
             onSubmit(e) {
                 this.v$.$validate().then( (response) => {
                     if (response) {
