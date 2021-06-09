@@ -76,7 +76,7 @@
 
 <script>
     import useVuelidate from '@vuelidate/core'
-    import { required, email, minLength, sameAs } from '@vuelidate/validators'
+    import { required, email, minLength, sameAs, helpers } from '@vuelidate/validators'
     export default {
         setup () {
             return { v$: useVuelidate() }
@@ -111,7 +111,10 @@
                     confirmPassword: {
                         required,
                         min: minLength(6),
-                        matched: sameAs(this.form.password)
+                        matched: helpers.withMessage(
+                            'confim password does not match',
+                            sameAs(this.form.password)
+                        )
                     },
                     acceptTerms: {
                         checked: sameAs(true)
