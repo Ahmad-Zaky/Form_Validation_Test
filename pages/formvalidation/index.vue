@@ -120,8 +120,14 @@
             }
         },
         methods: {
-            onSubmit() {
-                console.log('submited');
+            onSubmit(e) {
+                this.v$.$validate().then( (response) => {
+                    if (response) {
+                        console.log('Submited Successfully');
+                    } else {
+                        console.log('Submit Failed !');
+                    }
+                });
             },
         }
     }
